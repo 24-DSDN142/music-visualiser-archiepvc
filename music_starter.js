@@ -1,93 +1,114 @@
 
-// vocal, drum, bass, and other are volumes ranging from 0 to 100
-function draw_one_frame(words, vocal, drum, bass, other, counter) {
-console.log("counter: " + counter);
-
+let TVGrow = 1 // the zooming in of the TV
 let firstRun = true
-
-let Snail = [];{
-  if (firstRun) {
-    rectMode(CENTER);
-    Snail.push(loadImage('happySnail_0.png'));
-    Snail.push(loadImage('happySnail_1.png'));
-    Snail.push(loadImage('happySnail_2.png'));
-    firstRun = false
-  }
-
-  background(0);
-
-  let VocalFrame = int(map(vocal, 0,100, 0,3));
-
-  console.log(VocalFrame);
-  push();
-  scale(0.5);
-  image(Snail[VocalFrame], width/2, height/2)
-  pop();
-
-
+let Jack = []; // the array for the singing
+let JackBody = []; //
+let JacksBody;
+function preload(){
+   JacksBody = loadImage('jack.png')
 }
 
+// vocal, drum, bass, and other are volumes ranging from 0 to 100
+function draw_one_frame(words, vocal, drum, bass, other, counter) {
+   background(0)
+  textFont('Verdana');
+  rectMode(CENTER)
+  textSize(24);
+
+// the code to zoom in on the TV
+if (counter>= 1010 && counter <= 7000){ 
+TVGrow = TVGrow + 4.5;
+}
+else
+TVGrow = 0
+
+console.log("counter: " + counter);
 let TV = map(drum, 0, 200, 500, 600);
 let Speaker = map(vocal, 0, 150, 500, 600);
 
-// This Draws the TV Set.
+
+// this draws the TV Set.
 fill(117, 76, 41)
-rect(0, 970, 4000, 250);
+rect(0, 970, 4000 + TVGrow/2, 250 + TVGrow/2);
 
 fill(82, 50, 23);
-rect(900, 750, 75, 250);
-rect(250, 750, 75, 250);
+rect(900, 750, 75 + TVGrow/2, 250 + TVGrow/2);
+rect(250, 750, 75 + TVGrow/2, 250 + TVGrow/2);
 
 fill(117, 76, 41);
-rect(580, 440, TV + 420, TV + 90);
+rect(580, 440, TV + 420 + TVGrow, TV + 90 + TVGrow);
 
 fill(173, 143, 106);
-rect(530,440, TV + 260, TV + 40);
+rect(530,440, TV + 260 + TVGrow/1.5, TV + 40 + TVGrow/1.5);
 
 fill(56, 38, 16);
-rect(985 + TV/5 - 100,440 + TV/5 - 100, Speaker - 470, Speaker); //- TV + 500) - TV + 40
+rect(985 + TV/5 - 100 + TVGrow/2,440 + TV/5 - 100, Speaker - 470, Speaker); //- TV + 500) - TV + 40
 
-if(counter>= 1285 && counter <= 7000){
+
+// this changes the TV colour
+if(counter>= 1295 && counter <= 7000){
    scale(0.87);
    stroke(1);
    strokeWeight(2);
-   fill(0);
-   rect(605,500, TV + 200, TV);   
+   fill(50, 82, 106);
+   rect(605,500, TV + 200 + TVGrow/1.5, TV + TVGrow/1.5);   
 }
 else
-{if(counter<= 1285)
+{if(counter<= 1295)
    scale(0.87);
    stroke(1);
    strokeWeight(2);
    fill(56, 88, 112);
-   rect(605,500, TV + 200, TV);
+   rect(605,500, TV + 200 + TVGrow/1.5, TV + TVGrow/1.5);
 }
 
 if(counter>= 0 && counter <= 300){
    textAlign(CENTER)
 }
 
-//this displays the "words"
+//this displays the lyrics
 if(counter>= 0 && counter <= 370){
 fill(167, 195, 217);
 textSize(100);
-textFont('Courier');
+textFont('Arial Black');
 text("BEIRD", 562 + TV/10, 465 + TV/10);
 }
 
 if(counter>= 692 && counter <= 771){
    fill(167, 195, 217);
    textSize(100);
-   textFont('Courier');
+   textFont('Arial Black');
    text("BY", 562 + TV/10, 465 + TV/10);
 }
 if(counter>= 848 && counter <= 1002){
    fill(167, 195, 217);
    textSize(70);
-   textFont('Courier');
+   textFont('Arial Black');
    text("JACK STAUBER", 562 + TV/10, 465 + TV/10);
 }
 
+//this plays the singing animation
+if(counter>= 1289 && counter <= 7000){ //1289
+if (firstRun){
+   rectMode(CENTER);
+   Jack.push(loadImage('jackk0.png'));
+   Jack.push(loadImage('jackk1.png'));
+   Jack.push(loadImage('jackk2.png'));
+   Jack.push(loadImage('jackk3.png'));
+   
+   firstRun = false
+ }
+
+ let VocalFrame = int(map(vocal, 0,140, 0,4));
+ let DrumFrame = int(map(drum,0,50, 300,500));
+
+ console.log(VocalFrame);
+ push();
+ scale(0.2);
+ image(Jack[VocalFrame], width/0.8, [DrumFrame])
+ pop();
+
+}
 
 }
 
