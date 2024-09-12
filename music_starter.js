@@ -4,6 +4,22 @@ let firstRun = true
 let Jack = []; // the array for the singing
 let JackBody = []; // jack stauber's body
 let JacksBody;
+let x, y;
+let speedX, speedY;
+let DVD = []; // moving DVD logo
+x = 0;
+y = 0;
+x1 = 0;
+y1 = 0;
+x2 = 0;
+y2 = 0;
+negativex = -0.0001;
+negativey = -0.0001;
+negativex1 = -0.0001;
+negativey1 = -0.0001;
+
+speedX = 3;
+speedY = 2
 
 // vocal, drum, bass, and other are volumes ranging from 0 to 100
 function draw_one_frame(words, vocal, drum, bass, other, counter) {
@@ -14,7 +30,8 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
       Jack.push(loadImage('jackk2.png'));
       Jack.push(loadImage('jackk3.png'));
       JacksBody = loadImage('jack.png');
-      
+      DVD = loadImage('DVD.png');
+
       firstRun = false
     }
    background(0)
@@ -40,9 +57,13 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
 if (counter>=115 && counter <= 138){
    PopUp = PopUp + 120;
 } else if (counter>=139 && counter <= 174){
-   Popup = PopUp + 3
-} else 
-   PopUp = 0
+   PopUp = PopUp + 3
+} else if(counter>=175 && counter <= 220){
+   PopUp = PopUp - 150; 
+} else {PopUp = 0
+
+}
+
 
 if (counter >=2540 && counter <=5000){
    Light = Darker
@@ -134,13 +155,13 @@ rect(605, 500, TV + 200 + TVGrow/1.5, TV + TVGrow/1.5);
    noStroke()
    fill(Light);
    rect(605, stripes, TV + 200 + TVGrow/1.5, stripeWidth);
-    
+
 }
    
 }
 
-
-stroke(1) // adds stroke back
+stroke(94, 60, 30)
+strokeWeight(3) // adds stroke back
 
 
 if(counter>= 0 && counter <= 300){
@@ -171,9 +192,65 @@ if(counter>=10858 && counter <= 11015){
    text("THE END", 562 + TV/10, 465 + TV/10);
 }
 
+let BassFrame = int(map(bass,0,50,200,300))
+
+if(counter>=2540 && counter <=3037){ //2540, 3037
+   x1 = x1 + speedX
+   y1 = y1 + speedY
+
+   push();
+   scale(0.4);
+   rectMode(CENTER);
+   image(DVD, x1 + 620, y1 + 600, BassFrame - 50, BassFrame - 50);
+   pop();
+
+} else if (counter>=3038 && counter <=3900){
+   negativex = negativex - speedX
+   negativey = negativey + 1 - speedY
+
+   push();
+   scale(0.4);
+   rectMode(CENTER);
+   image(DVD, negativex + 2125, negativey + 1600, BassFrame - 50, BassFrame - 50);
+   pop();
+
+}
+
+if(counter>=6235 && counter <=6732){ // 6235, 6732
+   x = x + speedX
+   y = y + speedY
+
+   push();
+   scale(0.4);
+   rectMode(CENTER);
+   image(DVD, x + 620, y + 600, BassFrame - 50, BassFrame - 50);
+   pop();
+
+} else if (counter>=6733 && counter <7246){ // 6733, 7460
+   negativex1 = negativex1 - speedX
+   negativey1 = negativey1 + 1 - speedY
+
+   push();
+   scale(0.4);
+   rectMode(CENTER);
+   image(DVD, negativex1 + 2125, negativey1 + 1600, BassFrame - 50, BassFrame - 50);
+   pop();
+
+} else if (counter>=7247 && counter <=7600){ // 7247
+   x2 = x2 + speedX
+   y2 = y2 + speedY
+
+   push();
+   scale(0.4);
+   rectMode(CENTER);
+   image(DVD, x2 + 620, y2 + 1125, BassFrame - 50, BassFrame - 50);
+   pop();
+
+}
+
 
 //this plays the singing animation
-if(counter>=115 && counter <= 174){
+if(counter>=115 && counter <= 220){
    let VocalFrame = int(map(vocal, 0,120, 0,4));
    let DrumFrame = int(map(drum,0,75, 300,500));
    
@@ -199,7 +276,7 @@ if(counter>=115 && counter <= 174){
  image(JacksBody, 1500, 1075 - [DrumFrame/2] + 400); //800
  pop();
 
- console.log(VocalFrame);
+console.log(VocalFrame);
  push();
  scale(0.2);
  image(Jack[VocalFrame], width/0.8, [DrumFrame + 200])
@@ -267,6 +344,7 @@ pop();
    image(Jack[VocalFrame], width/0.8, [DrumFrame+ 200])
    pop(); 
 }
+
 
 // MOVIE ENDS AT 11376
 
